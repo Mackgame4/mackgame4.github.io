@@ -94,7 +94,6 @@ export default {
     },
     updatePage(page) {
       this.page = page
-      console.log(this.page, page, "sup")
     },
   }
 }
