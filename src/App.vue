@@ -16,7 +16,7 @@
     </Card>
   </div>
   <Sidebar v-if="mobile" v-model:visible="sidebar">
-    <SideMenu />
+    <SideMenu v-on:updatePage="updatePage"/>
     <div class="sideBarFooter">
       <Button icon="pi pi-github" class="p-button-rounded p-button-text" @click="openInNewTab(githubLink)" />
       <Button icon="pi pi-discord" class="p-button-rounded p-button-text" @click="openInNewTab(discordLink)" />
@@ -53,12 +53,15 @@ export default {
       theme: localStorage.getItem('theme'),
       darkMode: true,
       sidebar: false,
-      mobile: window.innerWidth < 768,
+      mobile: false,
       page: null
     }
   },
   mounted() {
     this.applyTheme();
+    this.$nextTick(() => {
+      this.mobile = window.innerWidth < 920;
+    })
     window.addEventListener('resize', () => {
       //this.mobile = window.innerWidth < 768
       this.mobile = window.innerWidth < 920
