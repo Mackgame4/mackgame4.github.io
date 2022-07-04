@@ -34,22 +34,16 @@ export default {
     },
     methods: {
         fetchDiscordUser() {
-            // https://github.com/chocololat/discord-lookup-api
-            let url = 'https://discordlookup.mesavirep.xyz/263676903116898304';
-            let request = new XMLHttpRequest();
-            request.open('GET', url, false);
-            request.send(null);
-            let response = JSON.parse(request.responseText);
             var waitForElement = setInterval(() => {
-                if (document.getElementById("discord")) {
-                    document.getElementById("discord").innerHTML = response.tag;
+                if (document.getElementById("discord") && this.discordUser) {
+                    document.getElementById("discord").innerHTML = this.discordUser;
                     var list = document.querySelectorAll('a');
                     for (let i = 0; i < list.length; i++) {
                         list[i].setAttribute('target', '_blank');
                     }
                     clearInterval(waitForElement);
                 }
-            }, 100);
+            }, 1);
         },
     }
 }

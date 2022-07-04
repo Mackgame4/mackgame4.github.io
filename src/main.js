@@ -18,8 +18,17 @@ import 'primeicons/primeicons.css';
 const app = createApp(App)
 app.use(router)
 
+// Some discord checker
+// https://github.com/chocololat/discord-lookup-api
+let url = 'https://discordlookup.mesavirep.xyz/263676903116898304';
+let request = new XMLHttpRequest();
+request.open('GET', url, false);
+request.send(null);
+let response = JSON.parse(request.responseText);
+
 app.mixin({
     data: () => ({
+        discordUser: response.tag,
         discordLink: 'https://discord.gg/Vw6acJ5',
         githubLink: 'https://github.com/Mackgame4',
         twitterLink: 'https://twitter.com'

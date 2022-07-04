@@ -93,7 +93,6 @@ export default {
     },
     watch: {
         page: function(newPage) {
-            console.log(newPage)
             this.$emit('updatePage', newPage)
         }
     },
