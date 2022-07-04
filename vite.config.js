@@ -2,15 +2,9 @@ import { defineConfig } from 'vite'
 import path from 'path'
 import vue from '@vitejs/plugin-vue'
 
-const baseUrl = {
-  development: './',
-  beta: './',
-  release: './'
-}
-
 // https://vitejs.dev/config/
-export default ({ mode }) =>  defineConfig({
-  base: baseUrl[mode],
+export default defineConfig({
+  base: './',
   resolve: {
     alias: {
       '~': path.resolve(__dirname, './'),
