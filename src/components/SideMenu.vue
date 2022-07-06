@@ -21,7 +21,7 @@ export default {
     },
     data() {
     return {
-        page: 'about',
+        page: 'home',
         githubProfile: null,
         menuItems: [
             /*{
@@ -80,6 +80,7 @@ export default {
         fetch('https://api.github.com/users/mackgame4/repos')
         .then(res => res.json())
         .then(res => {
+            this.$emit('receiveReposData', res);
             for (let i = 0; i < res.length; i++) {
             let icon = res[i].fork ? 'pi pi-fw pi-sitemap' : 'pi pi-fw pi-folder-open'
             this.menuItems[3].items[0][0].items.push({label: res[i].name, icon: icon, url: res[i].html_url})

@@ -3,7 +3,7 @@
   <div v-if="!mobile" id="sideBar">
     <Card class="background" style="border-right: 1px gray solid;">
       <template #content>
-        <SideMenu v-on:updatePage="updatePage"/>
+        <SideMenu v-on:updatePage="updatePage" v-on:receiveReposData="receiveReposData"/>
       </template>
       <template #footer>
         <Button icon="pi pi-github" class="p-button-rounded p-button-text" @click="openInNewTab(githubLink)" />
@@ -16,7 +16,7 @@
     </Card>
   </div>
   <Sidebar v-if="mobile" v-model:visible="sidebar" class="mobile">
-    <SideMenu v-on:updatePage="updatePage"/>
+    <SideMenu v-on:updatePage="updatePage" v-on:receiveReposData="receiveReposData"/>
     <div class="sideBarFooter">
       <Button icon="pi pi-github" class="p-button-rounded p-button-text" @click="openInNewTab(githubLink)" />
       <Button icon="pi pi-discord" class="p-button-rounded p-button-text" @click="openInNewTab(discordLink)" />
@@ -29,9 +29,21 @@
   <ToggleButton style="position: absolute; top: 5px; left: 5px;" v-if="mobile" v-model="sidebar" onIcon="pi pi-bars" offIcon="pi pi-bars" />
   <Card id="main" class="background">
     <template #content>
-      <!--div v-if="page == 'home'">
-        <h1>Welcome to the Home Page</h1>
-      </div-->
+      <div v-if="page == 'home'">
+        <h1>Github Repos</h1>
+        <Card v-for="(repo, i) in githubRepos" :key="i">
+          <template #header>
+            <img alt="user header" src="demo/images/usercard.png">
+          </template>
+          <template #title>
+            {{ repo.name }}
+          </template>
+          <template #content>
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam deserunt
+              quisquam repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate neque quas!
+          </template>
+        </Card>
+      </div>
       <About v-if="page == 'about'"/>
     </template>
   </Card>
@@ -54,7 +66,8 @@ export default {
       darkMode: true,
       sidebar: false,
       mobile: false,
-      page: null
+      page: null,
+      githubRepos: null
     }
   },
   mounted() {
@@ -98,6 +111,9 @@ export default {
     updatePage(page) {
       this.page = page
     },
+    receiveReposData(data) {
+      this.githubRepos = data
+    }
   }
 }
 </script>
