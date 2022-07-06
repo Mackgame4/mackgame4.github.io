@@ -24,9 +24,9 @@ export default {
         page: 'home',
         githubProfile: null,
         menuItems: [
-            /*{
+            {
             label: 'Home', icon: 'pi pi-fw pi-home', command: () => { this.page = 'home' }
-            },*/
+            },
             {
             label: 'About', icon: 'pi pi-fw pi-info-circle', command: () => { this.page = 'about' }
             },
@@ -83,7 +83,7 @@ export default {
             this.$emit('receiveReposData', res);
             for (let i = 0; i < res.length; i++) {
             let icon = res[i].fork ? 'pi pi-fw pi-sitemap' : 'pi pi-fw pi-folder-open'
-            this.menuItems[3].items[0][0].items.push({label: res[i].name, icon: icon, url: res[i].html_url})
+            this.menuItems[4].items[0][0].items.push({label: res[i].name, icon: icon, url: res[i].html_url})
             }
         }).then(() => {
             var list = document.querySelectorAll('a.p-menuitem-link');

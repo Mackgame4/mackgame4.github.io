@@ -31,18 +31,22 @@
     <template #content>
       <div v-if="page == 'home'">
         <h1>Github Repos</h1>
-        <Card v-for="(repo, i) in githubRepos" :key="i">
-          <template #header>
-            <img alt="user header" src="demo/images/usercard.png">
-          </template>
-          <template #title>
-            {{ repo.name }}
-          </template>
-          <template #content>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam deserunt
-              quisquam repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate neque quas!
-          </template>
-        </Card>
+        <div class="repoContainer">
+          <Card v-for="(repo, i) in githubRepos" :key="i" class="repoCard">
+            <template #header>
+              <img :id="'repoImg'+repo.id" class="repoImage" />
+            </template>
+            <template #title>
+              <span v-if="repo.name">{{ repo.name }}</span>
+              <span v-else>{{ repo.full_name }}</span>
+            </template>
+            <template #content>
+              <p v-if="repo.description">{{ repo.description }}</p>
+              <p v-else>No description provided.</p>
+              <Button style="margin-bottom: -30px;" icon="pi pi-github" label="View Source" class="p-button-rounded p-button-text" @click="openInNewTab(repo.html_url)" />
+            </template>
+          </Card>
+        </div>
       </div>
       <About v-if="page == 'about'"/>
     </template>
@@ -53,6 +57,7 @@
 <script>
 import SideMenu from './components/SideMenu.vue';
 import About from './pages/About.vue'
+import { createCanvas  } from 'canvas';
 
 export default {
   name: 'App',
@@ -84,6 +89,18 @@ export default {
     darkMode: async function(val) {
       this.changeTheme();
       if (this.theme != undefined) { localStorage.setItem('theme', this.theme); }
+    },
+    page: function(val) {
+      if (val == 'home') {
+        if (this.githubRepos) {
+          for (let i = 0; i < this.githubRepos.length; i++) {
+            let repo = this.githubRepos[i];
+            this.waitForElement(`#repoImg${repo.id}`, () => {
+              document.getElementById('repoImg'+repo.id).src = this.githubRepos[i].image;
+            })
+          }
+        }
+      }
     }
   },
   methods: {
@@ -111,8 +128,96 @@ export default {
     updatePage(page) {
       this.page = page
     },
+    wrapText(ctx, text, x, y, maxWidth, lineHeight) {
+      let words = text.split(' ');
+      let line = '';
+      let testLine = '';
+      let wordArray = [];
+      let totalLineHeight = 0;
+      for(var n = 0; n < words.length; n++) {
+          testLine += `${words[n]} `;
+          var metrics = ctx.measureText(testLine);
+          var testWidth = metrics.width;
+          if (testWidth > maxWidth && n > 0) {
+              wordArray.push([line, x, y]);
+              y += lineHeight;
+              totalLineHeight += lineHeight;
+              line = `${words[n]} `;
+              testLine = `${words[n]} `;
+          }
+          else {
+              line += `${words[n]} `;
+          }
+          if(n === words.length - 1) {
+              wordArray.push([line, x, y]);
+          }
+      }
+      return [ wordArray, totalLineHeight ];
+    },
     receiveReposData(data) {
       this.githubRepos = data
+      // Canvas
+      for (let i = 0; i < this.githubRepos.length; i++) {
+        let repo = this.githubRepos[i];
+        const canvas = createCanvas(1342, 853);
+        const ctx = canvas.getContext('2d');
+        // Settings
+        ctx.globalCompositeOperation='destination-over';
+        // Vars
+        var gradientList = [
+          [ '#FA9800', '#D7BC00' ],
+          [ '#15BC80', '#41E784' ],
+          [ '#052793', '#1BACC9' ],
+          [ '#FF536E', '#FFD793' ],
+          [ '#F78FCA', '#49E94B' ],
+          [ '#5C67DA', '#CA87E4' ],
+          [ '#EDE46D', '#18BCBE' ],
+          [ '#F8C768', '#A251F8' ],
+          [ '#82DCFF', '#DD4462' ],
+          [ '#EDF1F2', '#8E9EAB' ],
+          [ '#C84C80', '#FCB7B2' ],
+          [ '#06E1F7', '#6850EC' ]
+        ];
+        var emojiList = ['💻', '🖥️', '💎', '🍌', '🍏', '🍎', '🍐', '🍊', '🍋', '🍌', '🍉', '🍇', '🍓', '🍈', '🍒', '🍑', '🍍', '🍅', '🍆', '🍑', '🍇', '🍉', '🍒', '🍓', '🍈', '🍍', '🍅', '🍆', '🍑', '🍊', '🍋', '🍌', '🍏', '🍎', '🍐', '🍌', '🍉', '🍇', '🍓', '🍈', '🍒', '🍑', '🍍', '🍅', '🍆', '🍑', '🍊', '🍋', '🍌', '🍏', '🍎', '🍐', '🍌', '🍉', '🍇', '🍓', '🍈', '🍒', '🍑', '🍍', '🍅', '🍆', '🍑', '🍊', '🍋', '🍌', '🍏', '🍎', '🍐', '🍌', '🍉', '🍇', '🍓', '🍈', '🍒', '🍑', '🍍', '🍅', '🍆', '🍑', '🍊', '🍋', '🍌', '🍏', '🍎', '🍐', '🍌', '🍉', '🍇', '🍓', '🍈', '🍒', '🍑', '🍍', '🍅', '🍆', '🍑', '🍊', '🍋', '🍌', '🍏', '🍎', '🍐', '🍌', '🍉', '🍇', '🍓', '🍈', '🍒']
+        var articleName = repo.name;
+        var articleCategory = repo.language;
+        // Emoji
+        let emoji = emojiList[Math.floor(Math.random() * emojiList.length)];
+        ctx.fillStyle = 'white';
+        ctx.font = '95px Inter';
+        ctx.fillText(emoji, 85, 700);
+        // Text
+        ctx.font = 'bold 95px Inter';
+        ctx.fillStyle = 'white';
+        let wrappedText = this.wrapText(ctx, articleName, 85, 753, 20, 100);
+        wrappedText[0].forEach(function(item) {
+          ctx.fillText(item[0], item[1], item[2] - wrappedText[1] - 200); // 200 is height of an emoji
+        })
+        // Category
+        ctx.font = 'bold 50px Inter';
+        ctx.fillStyle = 'rgba(255,255,255,0.8)';
+        ctx.fillText(articleCategory, 85, 553 - wrappedText[1] - 100); // 853 - 200 for emoji, -100 for line height of 1
+        // Stats
+        ctx.font = '50px Inter';
+        ctx.fillStyle = 'rgba(255,255,255,0.8)';
+        ctx.fillText('⭐'+repo.stargazers_count, 85, 253 - wrappedText[1] - 100);
+        ctx.fillText('👁️‍🗨️'+repo.watchers_count, 225, 253 - wrappedText[1] - 100);
+        ctx.fillText('🗄️'+repo.forks_count, 365, 253 - wrappedText[1] - 100);
+        ctx.fillText('📦'+repo.size, 490, 253 - wrappedText[1] - 100);
+        if (repo.license) { ctx.fillText('📖'+repo.license.name, 85, 353 - wrappedText[1] - 100); }
+        // Gradient Background
+        let gradientColors = gradientList[Math.floor(Math.random() * gradientList.length)];
+        let grd = ctx.createLinearGradient(0, 853, 1352, 0);
+        grd.addColorStop(0, gradientColors[0]);
+        grd.addColorStop(1, gradientColors[1]);
+        ctx.fillStyle = grd;
+        ctx.fillRect(0, 0, 1342, 853);
+        const dataURL = canvas.toDataURL();
+        this.githubRepos[i].image = dataURL;
+        this.waitForElement(`#repoImg${repo.id}`, () => {
+          document.getElementById('repoImg'+repo.id).src = dataURL;
+        })
+      }
     }
   }
 }
@@ -181,5 +286,26 @@ html, body {
 
 .background .p-card-content {
   height: 87%;
+}
+
+.repoContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-gap: 20px;
+  width: 100%;
+  height: 100%;
+}
+
+.repoCard {
+  background: var(--surface-b);
+  border: 1px solid var(--surface-d);
+  border-radius: 6px;
+  max-width: 480px;
+  padding: 12px;
+}
+
+.repoImage {
+  width: 330px !important;
+  border-radius: 5px !important;
 }
 </style>

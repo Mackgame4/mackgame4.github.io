@@ -36,6 +36,15 @@ app.mixin({
     methods: {
         openInNewTab(url) {
             window.open(url, '_blank');
+        },
+        waitForElement(selector, callback) {
+            if (document.querySelector(selector)) {
+                callback();
+            } else {
+                setTimeout(() => {
+                this.waitForElement(selector, callback);
+                }, 100);
+            }
         }
     }
 })
