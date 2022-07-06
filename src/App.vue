@@ -8,7 +8,7 @@
       <template #footer>
         <Button icon="pi pi-github" class="p-button-rounded p-button-text" @click="openInNewTab(githubLink)" />
         <Button icon="pi pi-discord" class="p-button-rounded p-button-text" @click="openInNewTab(discordLink)" />
-        <Button icon="pi pi-twitter" class="p-button-rounded p-button-text" @click="openInNewTab(twitterLink)" />
+        <Button icon="pi pi-reddit" class="p-button-rounded p-button-text" @click="openInNewTab(redditLink)" />
         <div>
           <ToggleButton v-model="darkMode" onLabel="Dark Mode" offLabel="Light Mode" onIcon="pi pi-moon" offIcon="pi pi-sun" />
         </div>
@@ -20,7 +20,7 @@
     <div class="sideBarFooter">
       <Button icon="pi pi-github" class="p-button-rounded p-button-text" @click="openInNewTab(githubLink)" />
       <Button icon="pi pi-discord" class="p-button-rounded p-button-text" @click="openInNewTab(discordLink)" />
-      <Button icon="pi pi-twitter" class="p-button-rounded p-button-text" @click="openInNewTab(twitterLink)" />
+      <Button icon="pi pi-reddit" class="p-button-rounded p-button-text" @click="openInNewTab(redditLink)" />
       <div>
         <ToggleButton v-model="darkMode" onLabel="Dark Mode" offLabel="Light Mode" onIcon="pi pi-moon" offIcon="pi pi-sun" />
       </div>

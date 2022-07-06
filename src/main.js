@@ -31,7 +31,7 @@ app.mixin({
         discordUser: response.tag,
         discordLink: 'https://discord.gg/Vw6acJ5',
         githubLink: 'https://github.com/Mackgame4',
-        twitterLink: 'https://twitter.com'
+        redditLink: 'https://www.reddit.com/user/Mackgame4'
     }),
     methods: {
         openInNewTab(url) {
