@@ -15,7 +15,7 @@
       </template>
     </Card>
   </div>
-  <Sidebar v-if="mobile" v-model:visible="sidebar">
+  <Sidebar v-if="mobile" v-model:visible="sidebar" class="mobile">
     <SideMenu v-on:updatePage="updatePage"/>
     <div class="sideBarFooter">
       <Button icon="pi pi-github" class="p-button-rounded p-button-text" @click="openInNewTab(githubLink)" />

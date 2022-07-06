@@ -123,10 +123,9 @@ export default {
 }
 
 .sidebarMenu .p-megamenu-panel {
-    width: 100% !important;
     text-align: left !important;
     position: absolute !important;
-    margin-top: -70% !important;
+    min-width: 328px !important;
     max-height: 570px !important;
     overflow-y: auto !important;
 }
@@ -138,6 +137,22 @@ export default {
 
 .sidebarMenu .p-megamenu-panel .p-menuitem-link {
     min-width: 300px !important;
+}
+
+.p-menuitem-active > .p-megamenu-panel {
+    display: block !important;
+    position: fixed !important;
+    top: 27% !important;
+    left: 358px !important;
+}
+
+.mobile .p-megamenu-panel {
+    position: relative !important;
+    top: 5px !important;
+    margin-bottom: 3px !important;
+    left: 0px !important;
+    min-width: 200px !important;
+    overflow: auto !important;
 }
 
 #sideBar {
