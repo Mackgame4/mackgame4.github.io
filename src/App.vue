@@ -129,24 +129,34 @@ export default {
       this.page = page
     },
     wrapText(ctx, text, x, y, maxWidth, lineHeight) {
-      let words = text.split(' ');
+      let wordSplitter = '-';
+      let words = text.split(wordSplitter); //let words = text.split(' ');
       let line = '';
       let testLine = '';
       let wordArray = [];
       let totalLineHeight = 0;
       for(var n = 0; n < words.length; n++) {
-          testLine += `${words[n]} `;
+          testLine += `${words[n]+wordSplitter}`;
           var metrics = ctx.measureText(testLine);
           var testWidth = metrics.width;
           if (testWidth > maxWidth && n > 0) {
               wordArray.push([line, x, y]);
               y += lineHeight;
               totalLineHeight += lineHeight;
-              line = `${words[n]} `;
-              testLine = `${words[n]} `;
+              // dont add to the last word
+              if (n == words.length - 1) {
+                line = `${words[n]}`;
+              } else {
+                line = `${words[n]+wordSplitter}`;
+              }
+              testLine = `${words[n]+wordSplitter}`;
           }
           else {
-              line += `${words[n]} `;
+            if (n == words.length - 1) {
+              line += `${words[n]}`;
+            } else {
+              line += `${words[n]+wordSplitter}`;
+            }
           }
           if(n === words.length - 1) {
               wordArray.push([line, x, y]);
@@ -189,7 +199,7 @@ export default {
         // Text
         ctx.font = 'bold 95px Inter';
         ctx.fillStyle = 'white';
-        let wrappedText = this.wrapText(ctx, articleName, 85, 753, 20, 100);
+        let wrappedText = this.wrapText(ctx, articleName, 85, 753, 1280, 100);
         wrappedText[0].forEach(function(item) {
           ctx.fillText(item[0], item[1], item[2] - wrappedText[1] - 200); // 200 is height of an emoji
         })
