@@ -9,6 +9,9 @@
     "host": "vite --host"
   },
   "dependencies": {
+    "@uppy/core": "^2.3.1",
+    "@uppy/tus": "^2.4.1",
+    "@uppy/vue": "^0.4.8",
     "canvas": "^2.9.3",
     "primeicons": "^5.0.0",
     "primevue": "^3.15.0",

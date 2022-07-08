@@ -1,5 +1,5 @@
 <template>
-<div class="mainContainer">
+<div class="mainContainer" :class="[mobile ? 'mobile' : '']">
   <div v-if="!mobile" id="sideBar">
     <Card class="background" style="border-right: 1px gray solid;">
       <template #content>
@@ -273,6 +273,10 @@ html, body {
   grid-template-columns: auto 1fr;
   width: 100vw;
   height: 100vh;
+}
+
+.mainContainer.mobile {
+  display: flex !important;
 }
 
 .p-component {

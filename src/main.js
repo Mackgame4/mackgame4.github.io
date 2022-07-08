@@ -64,6 +64,8 @@ import Sidebar from 'primevue/sidebar';
 app.component('Sidebar', Sidebar);
 import MegaMenu from 'primevue/megamenu';
 app.component('MegaMenu', MegaMenu);
+import Message from 'primevue/message';
+app.component('Message', Message);
 import Card from 'primevue/card';
 app.component('Card', Card);
 
