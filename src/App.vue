@@ -49,6 +49,7 @@
         </div>
       </div>
       <About v-if="page == 'about'"/>
+      <PublicAPI v-if="page == 'api'"/>
     </template>
   </Card>
 </div>
@@ -57,13 +58,15 @@
 <script>
 import SideMenu from './components/SideMenu.vue';
 import About from './pages/About.vue'
+import PublicAPI from './pages/PublicAPI.vue'
 import { createCanvas  } from 'canvas';
 
 export default {
   name: 'App',
   components: {
     SideMenu,
-    About
+    About,
+    PublicAPI
   },
   data() {
     return {
