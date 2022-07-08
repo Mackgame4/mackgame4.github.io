@@ -31,12 +31,6 @@ import Tus from '@uppy/tus'
 
 export default {
     name: 'App',
-    props: {
-        darkMode: {
-            type: Boolean,
-            default: false
-        }
-    },
     components: {
         Dashboard
     },
