@@ -58,6 +58,8 @@ import ToggleButton from 'primevue/togglebutton';
 app.component('ToggleButton', ToggleButton);
 import InputSwitch from 'primevue/inputswitch';
 app.component('InputSwitch', InputSwitch);
+import InputText from 'primevue/inputtext';
+app.component('InputText', InputText);
 import Avatar from 'primevue/avatar';
 app.component('Avatar', Avatar);
 import Sidebar from 'primevue/sidebar';
@@ -66,7 +68,13 @@ import MegaMenu from 'primevue/megamenu';
 app.component('MegaMenu', MegaMenu);
 import Message from 'primevue/message';
 app.component('Message', Message);
+import InlineMessage from 'primevue/inlinemessage';
+app.component('InlineMessage', InlineMessage);
 import Card from 'primevue/card';
 app.component('Card', Card);
+import Skeleton from 'primevue/skeleton';
+app.component('Skeleton', Skeleton);
+import Tooltip from 'primevue/tooltip';
+app.directive('tooltip', Tooltip);
 
 app.mount('#app')

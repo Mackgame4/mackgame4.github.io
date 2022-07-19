@@ -1,7 +1,7 @@
 <template>
 <div>
     <div v-if="githubProfile">
-        <Avatar style="width: 145px; height: 145px;" :image="githubProfile.avatar_url" size="xlarge" shape="circle" />
+        <Avatar style="width: 145px; height: 145px;" :image="githubProfile.avatar_url" size="xlarge" shape="circle" v-tooltip="tooltip" />
         <h2>@{{ githubProfile.login }}</h2>
         <p><b>Developer - {{ githubProfile.name }}</b></p>
         <p>{{ githubProfile.bio }}</p>
@@ -23,6 +23,7 @@ export default {
     return {
         page: 'home',
         githubProfile: null,
+        tooltip: "Follow me on GitHub!",
         menuItems: [
             {
             label: 'Home', icon: 'pi pi-fw pi-home', command: () => { this.page = 'home' }
@@ -76,6 +77,7 @@ export default {
         .then(res => res.json())
         .then(res => {
             this.githubProfile = res
+            this.tooltip = "Followers: " + res.followers + "\nFollowing: " + res.following + "\nRepositories: " + res.public_repos + "\nGists: " + res.public_gists
         })
         fetch('https://api.github.com/users/mackgame4/repos')
         .then(res => res.json())

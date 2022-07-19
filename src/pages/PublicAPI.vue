@@ -1,8 +1,8 @@
 <template>
     <div>
-        <h1>Public API</h1>
-        <p>This is a public API page.</p>
-        <h2>File upload</h2>
+        <h1 style="margin-top: -5px;">Public API</h1>
+        <Message severity="warn" :closable="false">This API its in work in progress!</Message>
+        <h2>Temp File Upload</h2>
         <dashboard :uppy="uppy" :props="{theme: 'light'}" />
         <p v-if="cachedFiles.length != 0">Your files:</p>
         <div v-if="cachedFiles.length != 0" style="overflow-x:auto;">

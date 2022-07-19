@@ -2,9 +2,6 @@
     <div id="aboutPage">
         <h1 style="margin-top: -5px;">About</h1>
         <Markdown id="markdownContainer" :source="readmeSource" html :breaks="false" linkify />
-        <br>
-        <Button label="Follow me!" icon="pi pi-github" class="p-button-rounded p-button-text" @click="openInNewTab(githubLink)" />
-        <Button label="Contact me!" icon="pi pi-discord" class="p-button-rounded p-button-text" @click="openInNewTab(discordLink)" />
     </div>
 </template>
 
@@ -44,7 +41,7 @@ export default {
                     clearInterval(waitForElement);
                 }
             }, 1);
-        },
+        }
     }
 }
 </script>

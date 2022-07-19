@@ -31,6 +31,9 @@
     <template #content>
       <div v-if="page == 'home'">
         <h1>Github Repos</h1>
+        <div v-if="!githubRepos" class="repoContainer">
+          <Skeleton style="max-width: 417px; min-height: 445px;" class="repoCard" v-for="i in 9" :key="i" shape="rectangle" />
+        </div>
         <div class="repoContainer">
           <Card v-for="(repo, i) in githubRepos" :key="i" class="repoCard">
             <template #header>
@@ -50,6 +53,7 @@
       </div>
       <About v-if="page == 'about'"/>
       <PublicAPI v-if="page == 'api'"/>
+      <Contact v-if="page == 'contact'"/>
     </template>
   </Card>
 </div>
@@ -59,6 +63,7 @@
 import SideMenu from './components/SideMenu.vue';
 import About from './pages/About.vue'
 import PublicAPI from './pages/PublicAPI.vue'
+import Contact from './pages/Contact.vue'
 import { createCanvas  } from 'canvas';
 
 export default {
@@ -66,7 +71,8 @@ export default {
   components: {
     SideMenu,
     About,
-    PublicAPI
+    PublicAPI,
+    Contact
   },
   data() {
     return {
@@ -92,6 +98,11 @@ export default {
     darkMode: async function(val) {
       this.changeTheme();
       if (this.theme != undefined) { localStorage.setItem('theme', this.theme); }
+    },
+    mobile: async function(val) {
+      if (val) {
+        this.sidebar = true; // TODO: Fix mobile sidebar
+      }
     },
     page: function(val) {
       if (val == 'home') {
@@ -322,7 +333,7 @@ html, body {
 }
 
 .repoImage {
-  width: 330px !important;
+  width: 100%;
   border-radius: 5px !important;
 }
 </style>
