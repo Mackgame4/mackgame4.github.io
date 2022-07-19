@@ -10,9 +10,10 @@
             </span>
             <span class="p-input-icon-right" v-tooltip="'If your discord DMs are avaliable it will be the main contact method, but its optional'">
                 <i class="pi pi-discord" />
-                <InputText id="username" placeholder="Discord" type="text" v-model="discordUsername" />
+                <InputText id="username" placeholder="Discord (ex: Username#0001)" type="text" v-model="discordUsername" />
             </span>
-            <InlineMessage v-if="showMessage">*Required</InlineMessage>
+            <Textarea id="message" v-model="text" :autoResize="true" rows="5" cols="30" placeholder="Message" />
+            <InlineMessage v-if="showMessage">{{ message }}</InlineMessage>
             <Button label="Submit" icon="pi pi-send" class="submitButton p-button-raised" @click="sendMessage()" />
         </form>
         <Button label="Follow me!" icon="pi pi-github" class="p-button-rounded p-button-text" @click="openInNewTab(githubLink)" />
@@ -21,6 +22,7 @@
 </template>
 
 <script>
+import moment from 'moment';
 
 export default {
     name: 'App',
@@ -29,9 +31,11 @@ export default {
     data() {
         return {
             showMessage: false,
+            message: '*Required',
             name: '',
             email: '',
-            discordUsername: ''
+            discordUsername: '',
+            text: ''
         }
     },
     mounted() {
@@ -40,25 +44,59 @@ export default {
     },
     methods: {
         validateEmail(email) {
-            console.log(email);
             var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
             return re.test(String(email).toLowerCase());
         },
         sendMessage() {
             if (this.name && this.validateEmail(this.email)) {
                 this.showMessage = false;
-                // TODO: Send message to discord
                 fetch('https://discord.com/api/webhooks/999039644773666896/7OVDeNOuHlcS8ETGLBlLhdVTyQWDmmUKbaTlhFq3239x3jCScF1OYx7xkBCNOyOo0P30', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        username: this.name,
-                        content: `${this.name} has sent you a message!\nEmail: ${this.email}\nDiscord: ${this.discordUsername}`
+                        username: "Web Contact Form",
+                        avatar_url: 'https://icons.iconarchive.com/icons/johanchalibert/mac-osx-yosemite/1024/messages-icon.png',
+                        content: `**${this.name}** has sent you a message!`,
+                        embeds: [
+                            {
+                                title: "Website Contact Form",
+                                description: this.text, // New message from the website contact form!
+                                url: "https://mackgame4.github.io",
+                                color: 11474714,
+                                fields: [
+                                    {
+                                        name: "Name",
+                                        value: this.name
+                                    },
+                                    {
+                                        name: "Email",
+                                        value: `||${this.email}||`
+                                    },
+                                    {
+                                        name: "Discord",
+                                        value: `*@${this.discordUsername}*`
+                                    }
+                                ],
+                                footer: {
+                                    text: "mackgame4.github.io"
+                                },
+                                timestamp: moment().format(),
+                                thumbnail: {
+                                    url: "https://icons.iconarchive.com/icons/johanchalibert/mac-osx-yosemite/1024/messages-icon.png"
+                                }
+                            }
+                        ],
+                        components: [],
+                        attachments: []
                     })
                 })
-            } else {
+            } else if (this.name && !this.validateEmail(this.email)) {
+                this.showMessage = true;
+                this.message = 'Invalid email';
+            }
+            else {
                 this.showMessage = true;
             }
         },
@@ -99,6 +137,12 @@ export default {
 
 #username {
     width: 100%;
+}
+
+#message {
+    width: 100%;
+    height: 100%;
+    margin-bottom: 10px;
 }
 
 .submitButton {

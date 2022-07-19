@@ -72,6 +72,8 @@ import InlineMessage from 'primevue/inlinemessage';
 app.component('InlineMessage', InlineMessage);
 import Card from 'primevue/card';
 app.component('Card', Card);
+import Textarea from 'primevue/textarea';
+app.component('Textarea', Textarea);
 import Skeleton from 'primevue/skeleton';
 app.component('Skeleton', Skeleton);
 import Tooltip from 'primevue/tooltip';
