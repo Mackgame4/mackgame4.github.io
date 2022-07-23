@@ -1,12 +1,16 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 
+import Home from './pages/routes/Home.vue'
+import ImageClipboard from './pages/routes/ImageClipboard.vue'
+
 import { createRouter, createWebHistory } from 'vue-router';
 
 const router = createRouter({
     history: createWebHistory(),
     routes: [
-        { path: '/', component: App }
+        { path: '/', name: "Home", component: Home },
+        { path: '/imageclipboard', name: "ImageClipboard", component: ImageClipboard }
     ]
 });
 
@@ -15,8 +19,7 @@ import PrimeVue from 'primevue/config';
 import 'primevue/resources/primevue.min.css';
 import 'primeicons/primeicons.css';
 
-const app = createApp(App)
-app.use(router)
+const app = createApp(App).use(router)
 
 // Some discord checker
 // https://github.com/chocololat/discord-lookup-api
