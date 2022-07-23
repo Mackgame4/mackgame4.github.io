@@ -1,16 +1,14 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 
-import Home from './pages/routes/Home.vue'
-import ImageClipboard from './pages/routes/ImageClipboard.vue'
-
 import { createRouter, createWebHistory } from 'vue-router';
 
 const router = createRouter({
     history: createWebHistory(),
     routes: [
-        { path: '/', name: "Home", component: Home },
-        { path: '/imageclipboard', name: "ImageClipboard", component: ImageClipboard }
+        { path: '/', name: "Home", component: App },
+        { path: '/imageclipboard', name: "imageClipboard", component: () => import('./pages/routes/ImageClipboard.vue') },
+        { path: "/:catchAll(.*)", redirect: '/' }
     ]
 });
 
