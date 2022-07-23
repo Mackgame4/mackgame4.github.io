@@ -13,7 +13,7 @@
                 <InputText id="username" placeholder="Discord (ex: Username#0001)" type="text" v-model="discordUsername" />
             </span>
             <Textarea id="message" v-model="text" :autoResize="true" rows="5" cols="30" placeholder="Message" />
-            <InlineMessage v-if="showMessage">{{ message }}</InlineMessage>
+            <InlineMessage v-if="showMessage" :severity="message.severity">{{ message.text }}</InlineMessage>
             <Button label="Submit" icon="pi pi-send" class="submitButton p-button-raised" @click="sendMessage()" />
         </form>
         <Button label="Follow me!" icon="pi pi-github" class="p-button-rounded p-button-text" @click="openInNewTab(githubLink)" />
@@ -31,7 +31,7 @@ export default {
     data() {
         return {
             showMessage: false,
-            message: '*Required',
+            message: { text: '*Required', severity: 'error' },
             name: '',
             email: '',
             discordUsername: '',
@@ -50,7 +50,7 @@ export default {
         sendMessage() {
             if (this.name && this.validateEmail(this.email)) {
                 this.showMessage = false;
-                fetch('https://discord.com/api/webhooks/999039644773666896/7OVDeNOuHlcS8ETGLBlLhdVTyQWDmmUKbaTlhFq3239x3jCScF1OYx7xkBCNOyOo0P30', {
+                fetch(import.meta.env.VITE_DISCORD_MESSAGES_WEBHOOK, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -62,7 +62,7 @@ export default {
                         embeds: [
                             {
                                 title: "Website Contact Form",
-                                description: this.text, // New message from the website contact form!
+                                description: "New message: "+this.text, // New message from the website contact form!
                                 url: "https://mackgame4.github.io",
                                 color: 11474714,
                                 fields: [
@@ -91,10 +91,22 @@ export default {
                         components: [],
                         attachments: []
                     })
-                })
+                }).then(res => {
+                    if (res.ok && res.status === 200 || res.status === 204) {
+                        this.showMessage = true;
+                        this.message = { text: 'Message sent!', severity: 'success' };
+                        setTimeout(() => {
+                            this.showMessage = false;
+                        }, 5000);
+                    } else {
+                        this.showMessage = true;
+                        this.message = { text: 'Message failed to send!', severity: 'error' };
+                    }
+                });
             } else if (this.name && !this.validateEmail(this.email)) {
                 this.showMessage = true;
-                this.message = 'Invalid email';
+                this.message.text = 'Invalid email';
+                this.message.severity = 'error';
             }
             else {
                 this.showMessage = true;
