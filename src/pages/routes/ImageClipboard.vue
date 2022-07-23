@@ -26,6 +26,7 @@ export default {
     components: {
     },
     data() {
+        return {
             clipboardURL: '',
             clipboardImages: []
         }
