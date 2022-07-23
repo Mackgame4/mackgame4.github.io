@@ -77,6 +77,8 @@ import Textarea from 'primevue/textarea';
 app.component('Textarea', Textarea);
 import Skeleton from 'primevue/skeleton';
 app.component('Skeleton', Skeleton);
+import ContextMenu from 'primevue/contextmenu';
+app.component('ContextMenu', ContextMenu);
 import Tooltip from 'primevue/tooltip';
 app.directive('tooltip', Tooltip);
 

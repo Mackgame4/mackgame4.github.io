@@ -1,5 +1,6 @@
 <template>
     <div id="clipboardPage">
+        <ContextMenu ref="menu" :model="items" />
         <Card class="clipboardPage">
             <template #content>
                 <div class="header">
@@ -9,7 +10,7 @@
                 </div>
                 <div class="content">
                     <div class="imageContainer">
-                        <Button v-for="(image, i) in clipboardImages" :key="i" @click="copyToClipboard(image.url)" type="button" class="clipboardButton p-button-raised p-button-text">
+                        <Button v-for="(image, i) in clipboardImages" :key="i" @click="copyToClipboard(image.url)" type="button" class="clipboardButton p-button-raised p-button-text" @contextmenu="onImageRightClick">
                             <img :src="image.url" />
                         </Button>
                     </div>
@@ -28,7 +29,26 @@ export default {
     data() {
         return {
             clipboardURL: '',
-            clipboardImages: []
+            clipboardImages: [],
+            selectedImage: null,
+            items: [
+                {
+                label:'File',
+                icon:'pi pi-fw pi-file',
+                items:[
+                    {
+                        label:'New',
+                        icon:'pi pi-fw pi-plus',
+                        items:[
+                            {
+                                label:'Bookmark',
+                                icon:'pi pi-fw pi-bookmark'
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
         }
     },
     mounted() {
@@ -44,6 +64,10 @@ export default {
     computed: {
     },
     methods: {
+        onImageRightClick(event) {
+            this.selectedImage = event.target.src;
+            this.$refs.menu.show(event);
+        },
         isImage(url) {
             url = url.split('?')[0];
             return url.match(/\.(jpeg|jpg|gif|png)$/) != null;
