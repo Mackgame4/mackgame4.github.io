@@ -4,6 +4,21 @@
         <div style="display: none;" v-for="(image, i) in clipboardImages" :key="i">
             <Image :id="'imagePreview_'+image.id" :src="image.url" preview />
         </div>
+        <Dialog header="Get from discord server" v-model:visible="dialog.display">
+            <div>
+                <InputText style="width: 100%;" v-model="dialog.guildID" placeholder="Discord server ID" /><br>
+                <InputText style="width: 100%; margin-top: 10px; margin-bottom: 10px;" v-model="dialog.token" placeholder="Your token" /><br>
+                <InlineMessage style="width: 100%;" severity="info">
+                    Check how to get your token <a href="https://markdownpastebin.com/?id=3e425ba6eb0540fc811b2b025568fe62" target="_blank">here</a>.
+                </InlineMessage>
+                <Message severity="error" v-if="dialog.errorMessage">
+                    {{ dialog.errorMessage }}
+                </Message>
+            </div>
+            <template #footer>
+                <Button label="Import from server" icon="pi pi-download" @click="importFromDiscordServer" autofocus />
+            </template>
+        </Dialog>
         <Card class="clipboardPage">
             <template #content>
                 <div class="header">
@@ -51,6 +66,12 @@ export default {
         return {
             clipboardURL: '',
             clipboardImages: [],
+            dialog: {
+                display: false,
+                guildID: '',
+                token: '',
+                errorMessage: ''
+            },
             message: {
                 text: '',
                 type: 'info'
@@ -94,6 +115,13 @@ export default {
                 {
                     label: 'Danger Zone',
                     items: [{
+                        label: 'Get from Discord Server',
+                        icon: 'pi pi-discord',
+                        command: () => {
+                            this.dialog.display = true;
+                        }
+                    },
+                    {
                         label: 'Clear Clipboard',
                         icon: 'pi pi-trash',
                         command: () => {
@@ -192,10 +220,57 @@ export default {
             this.$refs.sidemenu.toggle(event);
             // lazy fix menu text color
             setTimeout(() => {
-                const clearClipboardButton = document.querySelectorAll('a.p-menuitem-link')[4];
+                const discordImagesButton = document.querySelectorAll('a.p-menuitem-link')[4];
+                discordImagesButton.querySelector('span.p-menuitem-icon').style.color = 'lightblue';
+                discordImagesButton.querySelector('span.p-menuitem-text').style.color = 'lightblue';
+                const clearClipboardButton = document.querySelectorAll('a.p-menuitem-link')[5];
                 clearClipboardButton.querySelector('span.p-menuitem-icon').style.color = 'red';
                 clearClipboardButton.querySelector('span.p-menuitem-text').style.color = 'red';
             }, 1);
+        },
+        importFromDiscordServer() {
+            if (this.dialog.display) {
+                let token = this.dialog.token;
+                token = token.replace(/^"(.+)"$/, "$1");
+                fetch('https://discordapp.com/api/guilds/' + this.dialog.guildID + '/emojis', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': token
+                    }
+                }).then(response => {
+                    if (response.status === 200) {
+                        return response.json();
+                    } else if (response.status === 401) {
+                        throw new Error('BAD REQUEST: Invalid token or guild ID');
+                    } else if (response.status === 401) {
+                        throw new Error('Invalid token');
+                    } else if (response.status === 403) {
+                        throw new Error('You are not allowed to access this guild');
+                    } else if (response.status === 404) {
+                        throw new Error('Guild not found');
+                    } else if (response.status === 429) {
+                        throw new Error('Too many requests');
+                    } else {
+                        throw new Error(response.statusText);
+                    }
+                }).then(emojis => {
+                    emojis.forEach(emoji => {
+                        let url = 'https://cdn.discordapp.com/emojis/' + emoji.id + '.png';
+                        if (emoji.animated) {
+                            url = 'https://cdn.discordapp.com/emojis/' + emoji.id + '.gif';
+                        }
+                        this.clipboardImages.push({
+                            id: emoji.id,
+                            url: url,
+                            favorite: false
+                        });
+                    });
+                    localStorage.setItem('clipboardImages', JSON.stringify(this.clipboardImages));
+                    this.dialog.display = false;
+                }).catch(error => {
+                    this.dialog.errorMessage = error;
+                });
+            }
         },
         isImage(url) {
             // check if image is not broken
@@ -212,8 +287,7 @@ export default {
                 this.clipboardImages.push({
                     id: Date.now(),
                     url: this.clipboardURL,
-                    favorite: false,
-                    recent: true
+                    favorite: false
                 });
                 this.clipboardURL = '';
                 localStorage.setItem('clipboardImages', JSON.stringify(this.clipboardImages));
@@ -260,7 +334,6 @@ body, html {
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    max-height: 28vh;
     margin-bottom: 52px;
     overflow-y: auto;
 }
