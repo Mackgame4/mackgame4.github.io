@@ -31,7 +31,7 @@
                 <div class="content">
                     <div v-if="this.clipboardImages.filter(image => image.favorite).length > 0">
                         <h3>Favorite</h3>
-                        <div style="margin-bottom: 0px;" class="imageContainer">
+                        <div id="favorite" class="imageContainer">
                             <div v-for="(image, i) in clipboardImages" :key="i">
                                 <Button v-if="image.favorite" :id="'image_'+image.id" @click="copyToClipboard(image.url)" type="button" class="clipboardButton p-button-raised p-button-text" @contextmenu="onImageRightClick">
                                     <img :id="'image_'+image.id" class="clipboardImage" :src="image.url" />
@@ -338,11 +338,17 @@ body, html {
     z-index: 1;
 }
 
+#favorite.imageContainer {
+    max-height: 110px;
+    margin-bottom: 0px;
+}
+
 .imageContainer {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
+    max-height: 52vh;
     margin-bottom: 52px;
     overflow-y: auto;
 }
