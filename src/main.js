@@ -5,6 +5,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 
 const router = createRouter({
     history: createWebHistory(),
+    mode: 'hash',
     routes: [
         { path: '/', name: "Home", component: App },
         { path: '/imageclipboard', name: "imageClipboard", component: () => import('./pages/routes/ImageClipboard.vue') },

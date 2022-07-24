@@ -1,9 +1,9 @@
 <template>
-<div v-if="this.$route.name == 'imageClipboard'">
+<div v-if="this.$route.hash == '#/imageclipboard'">
   <ImageClipboard />
   <ToggleButton style="position: fixed; bottom: 12px; left: 12px;" v-model="darkMode" onLabel="Dark Mode" offLabel="Light Mode" onIcon="pi pi-moon" offIcon="pi pi-sun" />
 </div>
-<div v-if="this.$route.name == 'Home'" class="mainContainer" :class="[mobile ? 'mobile' : '']">
+<div v-if="this.$route.name == 'Home' && this.$route.hash == ''" class="mainContainer" :class="[mobile ? 'mobile' : '']">
   <div v-if="!mobile" id="sideBar">
     <Card class="background" style="border-right: 1px gray solid;">
       <template #content>
@@ -91,6 +91,7 @@ export default {
     }
   },
   mounted() {
+    console.log(this.$route, this.$route.hash);
     this.applyTheme();
     this.$nextTick(() => {
       this.mobile = window.innerWidth < 920;
