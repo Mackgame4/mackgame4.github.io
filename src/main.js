@@ -58,6 +58,8 @@ import Button from 'primevue/button';
 app.component('Button', Button);
 import ToggleButton from 'primevue/togglebutton';
 app.component('ToggleButton', ToggleButton);
+import Checkbox from 'primevue/checkbox';
+app.component('Checkbox', Checkbox);
 import InputSwitch from 'primevue/inputswitch';
 app.component('InputSwitch', InputSwitch);
 import InputText from 'primevue/inputtext';

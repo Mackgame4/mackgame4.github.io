@@ -8,6 +8,8 @@
             <div>
                 <InputText style="width: 100%;" v-model="dialog.guildID" placeholder="Discord server ID" /><br>
                 <InputText style="width: 100%; margin-top: 10px; margin-bottom: 10px;" v-model="dialog.token" placeholder="Your token" /><br>
+                <div v-tooltip="'When checked will import images full size, when unchecked will import images in discord chat size'"><Checkbox style="margin-right: 5px;" id="imageSize" v-model="dialog.fullSizeEmoji" :binary="true" />
+                <label :class="[dialog.fullSizeEmoji ? 'checkedCheckbox' : 'uncheckedCheckbox']" for="imageSize">Import Full Size Images</label></div><br>
                 <InlineMessage style="width: 100%;" severity="info">
                     Check how to get your token <a href="https://markdownpastebin.com/?id=3e425ba6eb0540fc811b2b025568fe62" target="_blank">here</a>.
                 </InlineMessage>
@@ -70,7 +72,8 @@ export default {
                 display: false,
                 guildID: '',
                 token: '',
-                errorMessage: ''
+                errorMessage: '',
+                fullSizeEmoji: false
             },
             message: {
                 text: '',
@@ -255,12 +258,18 @@ export default {
                     }
                 }).then(emojis => {
                     emojis.forEach(emoji => {
-                        let url = 'https://cdn.discordapp.com/emojis/' + emoji.id + '.png';
+                        let url = 'https://cdn.discordapp.com/emojis/' + emoji.id + '.png?size=28&quality=lossless';
                         if (emoji.animated) {
-                            url = 'https://cdn.discordapp.com/emojis/' + emoji.id + '.gif';
+                            url = 'https://cdn.discordapp.com/emojis/' + emoji.id + '.gif?size=28&quality=lossless';
+                        }
+                        if (this.dialog.fullSizeEmoji) {
+                            url = 'https://cdn.discordapp.com/emojis/' + emoji.id + '.png?quality=lossless';
+                            if (emoji.animated) {
+                                url = 'https://cdn.discordapp.com/emojis/' + emoji.id + '.gif?quality=lossless';
+                            }
                         }
                         this.clipboardImages.push({
-                            id: emoji.id,
+                            id: Date.now() + emoji.id,
                             url: url,
                             favorite: false
                         });
@@ -363,6 +372,14 @@ body, html {
 
 #overlay_menu {
     min-width: 203px !important;
+}
+
+.checkedCheckbox {
+    color: var(--text-color);
+}
+
+.uncheckedCheckbox {
+    color: var(--text-color-secondary);
 }
 
 </style>
