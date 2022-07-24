@@ -70,6 +70,8 @@ import Menu from 'primevue/menu';
 app.component('Menu', Menu);
 import MegaMenu from 'primevue/megamenu';
 app.component('MegaMenu', MegaMenu);
+import Image from 'primevue/image';
+app.component('Image', Image);
 import Message from 'primevue/message';
 app.component('Message', Message);
 import InlineMessage from 'primevue/inlinemessage';

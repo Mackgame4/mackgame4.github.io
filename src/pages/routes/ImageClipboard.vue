@@ -1,6 +1,9 @@
 <template>
     <div id="clipboardPage">
         <ContextMenu ref="menu" :model="items" />
+        <div style="display: none;" v-for="(image, i) in clipboardImages" :key="i">
+            <Image :id="'imagePreview_'+image.id" :src="image.url" preview />
+        </div>
         <Card class="clipboardPage">
             <template #content>
                 <div class="header">
@@ -101,6 +104,13 @@ export default {
             ],
             items: [
             {
+                label: 'Preview',
+                icon: 'pi pi-eye',
+                command: () => {
+                    this.previewImage();
+                }
+            },
+            {
                 label: 'Favorite',
                 icon: 'pi pi-star',
                 command: () => {
@@ -172,6 +182,12 @@ export default {
             this.selectedImage = event.target.id.replace('image_', '');
             this.$refs.menu.show(event);
         },
+        previewImage() {
+            if (this.selectedImage) {
+                let image = document.getElementById('imagePreview_' + this.selectedImage);
+                image.nextSibling.click();
+            }
+        },
         toggle(event) {
             this.$refs.sidemenu.toggle(event);
             // lazy fix menu text color
@@ -218,6 +234,7 @@ export default {
 
 body, html {
     height: 100vh;
+    overflow: hidden;
 }
 
 .clipboardPage {
