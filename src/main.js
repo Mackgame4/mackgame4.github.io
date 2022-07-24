@@ -66,6 +66,8 @@ import Avatar from 'primevue/avatar';
 app.component('Avatar', Avatar);
 import Sidebar from 'primevue/sidebar';
 app.component('Sidebar', Sidebar);
+import Menu from 'primevue/menu';
+app.component('Menu', Menu);
 import MegaMenu from 'primevue/megamenu';
 app.component('MegaMenu', MegaMenu);
 import Message from 'primevue/message';

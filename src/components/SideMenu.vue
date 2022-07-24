@@ -55,7 +55,7 @@ export default {
                     {
                         label: 'Pages',
                         items: [
-                            { label: 'Image Clipboard', icon: 'pi pi-fw pi-image', command: () => { this.$router.push } }
+                            { label: 'Image Clipboard', icon: 'pi pi-fw pi-image', command: () => { this.$router.push({ hash: '#/imageclipboard' }) } }
                         ]
                     }
                 ]
