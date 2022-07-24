@@ -91,7 +91,6 @@ export default {
     }
   },
   mounted() {
-    console.log(this.$route, this.$route.hash);
     this.applyTheme();
     this.$nextTick(() => {
       this.mobile = window.innerWidth < 920;

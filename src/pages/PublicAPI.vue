@@ -55,7 +55,6 @@ export default {
         this.uppy.on('upload-success', function (file, response) {
             var url = response.uploadURL
             var fileName = file.name
-            //console.log(url, fileName);
             self.cachedFiles.push({
                 name: fileName,
                 url: url
