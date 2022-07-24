@@ -1,5 +1,8 @@
 <template>
-<ImageClipboard v-if="this.$route.name == 'imageClipboard'" />
+<div v-if="this.$route.name == 'imageClipboard'">
+  <ImageClipboard />
+  <ToggleButton style="position: fixed; bottom: 12px; left: 12px;" v-model="darkMode" onLabel="Dark Mode" offLabel="Light Mode" onIcon="pi pi-moon" offIcon="pi pi-sun" />
+</div>
 <div v-if="this.$route.name == 'Home'" class="mainContainer" :class="[mobile ? 'mobile' : '']">
   <div v-if="!mobile" id="sideBar">
     <Card class="background" style="border-right: 1px gray solid;">

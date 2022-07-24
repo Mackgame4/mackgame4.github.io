@@ -106,4 +106,8 @@ body, html {
     padding: 5px !important;
 }
 
+/*.clipboardButton.p-button.p-button-raised {
+    box-shadow: none !important;
+}*/
+
 </style>
