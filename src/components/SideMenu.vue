@@ -48,21 +48,19 @@ export default {
                 ]
             ]
             },
-            /*{
+            {
             label: 'Pages', icon: 'pi pi-fw pi-file',
             items: [
                 [
                     {
-                        label: 'Video 1',
-                        items: [{label: 'Video 1.1'}, {label: 'Video 1.2'}]
-                    },
-                    {
-                        label: 'Video 2',
-                        items: [{label: 'Video 2.1'}, {label: 'Video 2.2'}]
+                        label: 'Pages',
+                        items: [
+                            { label: 'Image Clipboard', icon: 'pi pi-fw pi-image', command: () => { this.$router.push } }
+                        ]
                     }
                 ]
             ]
-            },*/
+            },
             {
             label: 'FiveM Tebex', icon: 'pi pi-fw pi-shopping-cart', url: 'https://mackmods.tebex.io'
             }
