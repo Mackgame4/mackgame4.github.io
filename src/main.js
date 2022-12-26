@@ -22,16 +22,19 @@ const app = createApp(App).use(router)
 
 // Some discord checker
 // https://github.com/chocololat/discord-lookup-api
-let url = 'https://discordlookup.mesavirep.xyz/263676903116898304';
-let request = new XMLHttpRequest();
-request.open('GET', url, false);
-request.send(null);
-let response = JSON.parse(request.responseText);
-response = response;
+//let url = 'https://discordlookup.mesavirep.xyz/263676903116898304';
+//let request = new XMLHttpRequest();
+//request.open('GET', url, false);
+//request.send(null);
+//let response = JSON.parse(request.responseText);
+//response = response;
+let response = {
+    username: '📂 cd ./System32/Mack.exe#2173'
+}
 
 app.mixin({
     data: () => ({
-        discordUser: response.tag,
+        discordUser: response.username,
         discordLink: 'https://discord.gg/Vw6acJ5',
         githubLink: 'https://github.com/Mackgame4',
         redditLink: 'https://www.reddit.com/user/Mackgame4'
