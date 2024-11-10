@@ -1,2 +1,2 @@
 # mackgame4.github.io
-_💻 My Github Page_
+_💻 My github page_
